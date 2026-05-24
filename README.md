@@ -46,6 +46,7 @@ For Ubuntu VPS deployment with Nginx + systemd, see:
 - `docs/production-deploy.md`
 - `ops/server/bootstrap-ubuntu.sh`
 - `ops/server/deploy-app.sh`
+- `ops/server/install-auto-update.sh`
 
 ## Environment
 

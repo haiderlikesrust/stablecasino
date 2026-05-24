@@ -84,7 +84,7 @@ export async function getBurnStats(): Promise<BurnStats> {
     priceUsdPerStable,
     burnCount: allBurns.length,
     lastBurnAt,
-    recent: recentBurns.map((r) => ({
+    recent: recentBurns.map((r: (typeof recentBurns)[number]) => ({
       amount: formatUnits(BigInt(r.amount), env.STABLE_MINT_DECIMALS),
       amountRaw: r.amount,
       txSignature: r.txSignature,

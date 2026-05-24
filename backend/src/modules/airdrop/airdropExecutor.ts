@@ -10,6 +10,7 @@ import {
   createTransferCheckedInstruction,
   getAssociatedTokenAddressSync,
 } from '@solana/spl-token';
+import { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import { env } from '../../config/env';
 import {
@@ -185,7 +186,7 @@ export async function runAirdropRound(): Promise<AirdropResult> {
 
   // Record everything atomically against the same DistributionRound id so the
   // ledger always reconciles.
-  await prisma.$transaction(async (db) => {
+  await prisma.$transaction(async (db: Prisma.TransactionClient) => {
     await db.distributionRound.create({
       data: {
         totalLamports: distributed.toString(), // schema field name preserved; value is USDC base units

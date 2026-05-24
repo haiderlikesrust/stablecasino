@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { Navbar } from '@/components/ui/Navbar';
 import { Footer } from '@/components/ui/Footer';
 import { Logo } from '@/components/ui/Logo';
+import { CopyContractButton } from '@/components/ui/CopyContractButton';
 import { CoinStats } from '@/components/home/CoinStats';
 import { BurnTracker } from '@/components/home/BurnTracker';
 import { EligibleHolders } from '@/components/home/EligibleHolders';
 
 const ticker = process.env.NEXT_PUBLIC_TOKEN_TICKER ?? 'STABLECASINO';
+const contractAddress = process.env.NEXT_PUBLIC_STABLE_MINT ?? 'Set NEXT_PUBLIC_STABLE_MINT';
 
 export default function HomePage() {
   return (
@@ -55,14 +57,7 @@ export default function HomePage() {
                     className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
                   />
                 </Link>
-                <a
-                  href={process.env.NEXT_PUBLIC_PUMP_FUN_URL ?? 'https://pump.fun'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-xl border border-ink-600/80 bg-ink-900/40 px-6 py-3 font-display font-semibold text-zinc-100 transition hover:border-accent-400 hover:text-accent-300"
-                >
-                  Buy ${ticker} on Pump.fun
-                </a>
+                <CopyContractButton address={contractAddress} />
               </div>
 
               <dl

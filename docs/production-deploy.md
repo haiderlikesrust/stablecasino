@@ -96,3 +96,41 @@ sudo journalctl -u stablecasino-frontend -f
 sudo systemctl restart stablecasino-backend stablecasino-frontend
 sudo nginx -t && sudo systemctl reload nginx
 ```
+
+## 11) Auto-update from GitHub (pull + rebuild + restart daemons)
+
+Install once:
+
+```bash
+cd /var/www/stablecasino
+sudo bash ops/server/install-auto-update.sh
+```
+
+If your repo owner is not `stablecasino`, set it explicitly:
+
+```bash
+cd /var/www/stablecasino
+sudo REPO_USER=<repo-owner-user> bash ops/server/install-auto-update.sh
+```
+
+What this does:
+
+- Every minute, checks `origin/master` for a new commit
+- If changed: fast-forward pull, runs `ops/server/deploy-app.sh`
+- `deploy-app.sh` rebuilds backend/frontend, runs Prisma deploy, restarts:
+  - `stablecasino-backend`
+  - `stablecasino-frontend`
+
+Useful commands:
+
+```bash
+# Trigger immediately
+sudo systemctl start stablecasino-auto-update.service
+
+# Check timer
+sudo systemctl status stablecasino-auto-update.timer
+sudo systemctl list-timers | grep stablecasino-auto-update
+
+# Logs
+sudo journalctl -u stablecasino-auto-update.service -f
+```
