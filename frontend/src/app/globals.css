@@ -1,0 +1,233 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@solana/wallet-adapter-react-ui/styles.css';
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #03061a;
+  color: #e7ecf5;
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif;
+  /* Inter v3 stylistic sets — single-storey a, tabular figures for stats, */
+  /* slashed zero so balances never get mistaken for an "O".               */
+  font-feature-settings:
+    'cv11' on,
+    'ss01' on,
+    'zero' on,
+    'cv02' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Soft starfield-ish background: a wide vignette over a faint dot grid.    */
+/* Sits behind every page so flat dark surfaces never feel like a blank     */
+/* template.                                                                */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(39, 117, 202, 0.25), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(34, 201, 148, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 10% 100%, rgba(245, 158, 11, 0.08), transparent 60%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    radial-gradient(rgba(74, 152, 238, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  opacity: 0.7;
+}
+
+/* Display headings: a touch tighter than Tailwind defaults so they feel    */
+/* deliberate instead of off-the-shelf.                                    */
+h1, h2, h3, h4 {
+  font-family: var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Big stat numbers and balances should always tabular-line. */
+.num,
+.font-mono,
+[data-numeric] {
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+/* ---- Wallet Adapter button polish -------------------------------------- */
+.wallet-adapter-button {
+  background: linear-gradient(180deg, #2775ca 0%, #1f5da2 100%) !important;
+  border-radius: 12px !important;
+  padding: 0 18px !important;
+  height: 42px !important;
+  font-family: var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  box-shadow:
+    0 8px 24px -10px rgba(39, 117, 202, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.wallet-adapter-button:hover {
+  background: linear-gradient(180deg, #4a98ee 0%, #2775ca 100%) !important;
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 28px -10px rgba(74, 152, 238, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background: #070b22 !important;
+  border: 1px solid #16224a !important;
+  border-radius: 18px !important;
+}
+
+/* ---- Casino-table surfaces --------------------------------------------- */
+.felt {
+  background:
+    radial-gradient(ellipse at top, rgba(39, 117, 202, 0.32), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(34, 201, 148, 0.10), transparent 60%),
+    #070b22;
+}
+
+.card-face {
+  background:
+    linear-gradient(180deg, #fbfbfd 0%, #e9ecf5 100%);
+  color: #0a0c14;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 12px 30px -16px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtle gradient-stroke utility for premium card edges. Apply along       */
+/* with a regular rounded border container.                                 */
+.gradient-border {
+  position: relative;
+  isolation: isolate;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    140deg,
+    rgba(74, 152, 238, 0.55),
+    rgba(74, 152, 238, 0) 35%,
+    rgba(34, 201, 148, 0) 60%,
+    rgba(245, 158, 11, 0.4)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle moving sheen for hero brand text. */
+.text-shimmer {
+  background: linear-gradient(
+    100deg,
+    #e7ecf5 0%,
+    #ffffff 18%,
+    #4a98ee 35%,
+    #ffffff 52%,
+    #e7ecf5 80%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+
+/* Slim scrollbars for embedded panels. */
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #16224a;
+  border-radius: 6px;
+}
+
+/* ---- Animations -------------------------------------------------------- */
+@keyframes deal {
+  from {
+    transform: translateY(-40px) rotate(-8deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+}
+.animate-deal { animation: deal 0.35s ease-out both; }
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 30px -8px rgba(39, 117, 202, 0.45); }
+  50%      { box-shadow: 0 0 60px -8px rgba(74, 152, 238, 0.7); }
+}
+.animate-glow { animation: glow 3.6s ease-in-out infinite; }
+
+@keyframes ember-rise {
+  0%   { transform: translate(0, 0) scale(1); opacity: 0; }
+  15%  { opacity: 0.9; }
+  85%  { opacity: 0.35; }
+  100% { transform: translate(var(--ember-dx, 0px), -180px) scale(0.3); opacity: 0; }
+}
+
+.ember {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #fde68a 0%, #f59e0b 40%, #dc2626 80%, rgba(220, 38, 38, 0) 100%);
+  filter: blur(0.4px);
+  animation: ember-rise 3.4s ease-in infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes flame-flicker {
+  0%, 100% {
+    transform: translateX(-50%) scale(1) rotate(-1deg);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.08, 1.18) rotate(1deg);
+    filter: hue-rotate(-8deg);
+  }
+}
+
+.flame-core {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 60px;
+  height: 80px;
+  border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+  background: radial-gradient(ellipse at 50% 80%, #fde68a 0%, #fb923c 30%, #dc2626 70%, rgba(220, 38, 38, 0) 100%);
+  box-shadow: 0 0 40px rgba(251, 146, 60, 0.55), 0 0 80px rgba(220, 38, 38, 0.35);
+  animation: flame-flicker 1.6s ease-in-out infinite;
+  filter: blur(0.5px);
+}

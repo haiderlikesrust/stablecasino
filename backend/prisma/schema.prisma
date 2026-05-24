@@ -1,0 +1,101 @@
+// Prisma schema for StableCasino backend
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  wallet    String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  games     Game[]
+  sessions  Session[]
+}
+
+model Nonce {
+  id        String   @id @default(cuid())
+  wallet    String
+  nonce     String   @unique
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([wallet])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Game {
+  id           String   @id @default(cuid())
+  userId       String
+  // Bet expressed in STABLECASINO base units (string for precision)
+  betAmount    String
+  // Equivalent bet expressed in USDC base units (for payout math)
+  betUsdc      String
+  state        String   // PLAYER_TURN | DEALER_TURN | SETTLED
+  outcome      String?  // WIN | LOSS | PUSH | BLACKJACK | BUST_PLAYER | BUST_DEALER
+  payoutUsdc   String?
+  playerHand   Json
+  dealerHand   Json
+  deckSeed     String
+  deckCursor   Int      @default(0)
+  doubledDown  Boolean  @default(false)
+  settled      Boolean  @default(false)
+  escrowSig    String?
+  escrowConfirmed Boolean @default(false)
+  payoutTx     String?
+  burnTx       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([state])
+}
+
+model FeeSnapshot {
+  id                    String   @id @default(cuid())
+  pendingLamports       String
+  collectedLamports     String
+  bankrollAllocLamports String
+  airdropAllocLamports  String
+  takenAt               DateTime @default(now())
+}
+
+model DistributionRound {
+  id              String   @id @default(cuid())
+  totalLamports   String
+  holderSnapshot  Json
+  createdAt       DateTime @default(now())
+  txSignature     String?
+}
+
+model LedgerEntry {
+  id          String   @id @default(cuid())
+  kind        String   // BET_IN | PAYOUT_OUT | BURN | FEE_IN | BANKROLL_ALLOC | AIRDROP_ALLOC | AIRDROP_OUT
+  amount      String
+  currency    String   // STABLECASINO | USDC | SOL
+  reference   String?
+  txSignature String?
+  createdAt   DateTime @default(now())
+
+  @@index([kind])
+  @@index([createdAt])
+}
