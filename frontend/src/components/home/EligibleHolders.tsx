@@ -43,6 +43,10 @@ export function EligibleHolders() {
     return () => clearInterval(id);
   }, []);
 
+  const nextAirdropTarget = data
+    ? (data.nextAirdropAt ?? data.fetchedAt + data.airdropIntervalMs)
+    : null;
+
   return (
     <section className="gradient-border relative overflow-hidden rounded-3xl bg-ink-850/70 shadow-glow backdrop-blur">
       <div className="relative flex flex-wrap items-end justify-between gap-4 border-b border-ink-700/60 px-6 py-5 md:px-8">
@@ -75,9 +79,7 @@ export function EligibleHolders() {
             className="font-display text-base font-semibold text-gold-400"
             data-numeric
           >
-            {data?.nextAirdropAt
-              ? formatCountdown(data.nextAirdropAt)
-              : 'on next collection'}
+            {formatCountdown(nextAirdropTarget)}
           </span>
         </div>
       </div>
