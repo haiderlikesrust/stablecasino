@@ -48,6 +48,14 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <a
+            href="https://x.com/stbcasino"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden rounded-lg border border-ink-600/70 bg-ink-900/50 px-3.5 py-2 text-sm font-semibold text-zinc-200 transition-all hover:border-accent-400/70 hover:text-white hover:shadow-[0_0_24px_-10px_rgba(74,152,238,0.6)] md:inline-flex"
+          >
+            X
+          </a>
           <Link
             href="/play"
             className="hidden rounded-lg border border-ink-600/70 bg-ink-900/50 px-3.5 py-2 text-sm font-semibold text-zinc-200 transition-all hover:border-accent-400/70 hover:text-white hover:shadow-[0_0_24px_-10px_rgba(74,152,238,0.6)] md:inline-flex md:items-center md:gap-1.5"

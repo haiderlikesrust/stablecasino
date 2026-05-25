@@ -19,13 +19,6 @@ export default function HomePage() {
         <section className="relative bg-felt-gradient">
           <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-28">
             <div className="flex flex-col justify-center">
-              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-accent-500/30 bg-accent-500/10 px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-accent-300">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-mint-400/70" />
-                  <span className="relative h-2 w-2 rounded-full bg-mint-400 shadow-mint" />
-                </span>
-                Live on Solana mainnet
-              </span>
               <h1 className="mt-6 font-display text-[44px] font-bold leading-[1.02] tracking-tightest sm:text-6xl">
                 The casino that{' '}
                 <span className="relative inline-block">
